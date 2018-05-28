@@ -6,13 +6,12 @@ public class Note : MonoBehaviour {
 
     private SpriteRenderer sr;
     private NoteController controller;
-    private PlayerController playerController;
     
 	// Use this for initialization
 	void Awake () {
         sr = GetComponent<SpriteRenderer>();
         controller = FindObjectOfType<NoteController>();
-        playerController = FindObjectOfType<PlayerController>();
+
     }
 	
 	// Update is called once per frame

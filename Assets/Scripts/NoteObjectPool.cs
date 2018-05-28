@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class NoteObjectPool : MonoBehaviour {
+public class NoteObjectPool : NetworkBehaviour {
 
     public const int MAX_NOTES = 20;
     public GameObject notePrefab;
@@ -16,6 +17,9 @@ public class NoteObjectPool : MonoBehaviour {
     private float yOffset;
 
     void Start() {
+        if (!isServer) {
+            return;
+        }
         objects = new Note[MAX_NOTES];
         for (int i = 0; i < MAX_NOTES; ++i) {
             //this creates the objects all on the same position

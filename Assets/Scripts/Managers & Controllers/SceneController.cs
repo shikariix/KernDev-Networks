@@ -9,12 +9,12 @@ public class SceneController : MonoBehaviour {
         SceneManager.LoadScene("Main");
     }
 
-    public void JoinLobby() {
-        SceneManager.LoadScene("Lobby");
-    }
-
     public void Login() {
         SceneManager.LoadScene("Menu");
+    }
+
+    public void Logout() {
+        SceneManager.LoadScene("Login");
     }
 
     public void QuitGame() {

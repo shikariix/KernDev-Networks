@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.UI;
 
-public class Player : MonoBehaviour {
+public class Player : NetworkBehaviour {
 
     internal int playerId = -1;
+    public Text scoreText;
+    public GameObject playersListTransform;
+    
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Awake() {
+        scoreText = GetComponentInChildren<Text>();
+        playersListTransform = GameObject.FindWithTag("PlayersList");
+    }
+
+    void OnClientConnect() {
+        transform.parent = playersListTransform.transform;
+    }
+
+    public void UpdateScore(string score) {
+        scoreText.text = score;
+    }
+
 }

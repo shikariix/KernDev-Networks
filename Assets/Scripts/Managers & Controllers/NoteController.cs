@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class NoteController : MonoBehaviour {
+public class NoteController : NetworkBehaviour {
 
     public Note notePrefab;
     private NoteObjectPool notePool;
@@ -15,13 +16,20 @@ public class NoteController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        if (!isServer) {
+            return;
+        }
+        StopTime();
         SetNewNoteTime();
         notePool = GetComponent<NoteObjectPool>();
         activeNotes = new Queue<GameObject>();
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
+        if (!isServer) {
+            return;
+        }
         //randomly spawn different colored notes
         //keep track of active notes
         timePassedSinceLastNote += Time.deltaTime;
@@ -56,5 +64,13 @@ public class NoteController : MonoBehaviour {
 
     void SetNewNoteTime() {
         timeUntilNextNote = Random.Range(2, 8) * 10 * Time.deltaTime;
+    }
+
+    public void StopTime() {
+        Time.timeScale = 0;
+    }
+
+    public void StartTime() {
+        Time.timeScale = 1;
     }
 }
