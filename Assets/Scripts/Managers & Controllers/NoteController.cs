@@ -34,31 +34,41 @@ public class NoteController : NetworkBehaviour {
         //keep track of active notes
         timePassedSinceLastNote += Time.deltaTime;
         if (timePassedSinceLastNote >= timeUntilNextNote) {
-            activeNotes.Enqueue(GetNote());
+            CmdSpawnNote();
 
             SetNewNoteTime();
             timePassedSinceLastNote = 0;
         }
     }
 
-    public void DeactivateNote(GameObject note) {
+    [Command]
+    public void CmdDeactivateNote(GameObject note) {
         activeNotes.Dequeue();
         note.SetActive(false);
     }
 
-    GameObject GetNote() {
+    [Command]
+    void CmdSpawnNote() {
+        Color col = GetColor();
+        GameObject note = notePool.GetObject(col);
+        activeNotes.Enqueue(note);
+        note.GetComponent<SpriteRenderer>().material.color = col;
+        NetworkServer.Spawn(note);
+    }
+
+    Color GetColor() {
         randomNote = Random.Range(0, 4);
         switch (randomNote) {
             case 0:
-                return notePool.GetObject(Color.blue);
+                return Color.blue;
             case 1:
-                return notePool.GetObject(Color.green);
+                return Color.green;
             case 2:
-                return notePool.GetObject(Color.yellow);
+                return Color.yellow;
             case 3:
-                return notePool.GetObject(Color.red);
+                return Color.red;
             default:
-                return notePool.GetObject(Color.blue);
+                return Color.blue;
         }
     }
 

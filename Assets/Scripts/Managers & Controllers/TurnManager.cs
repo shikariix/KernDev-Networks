@@ -79,8 +79,7 @@ public class TurnManager : MonoBehaviour {
     /// Moves the turn to the next player in the list
     /// TODO: Tell clients who's turn it is!
     public static void NextTurn() {
-        //if (++instance.currentPlayer >= instance.activePlayerIds.Count) {
-        if (++instance.currentPlayer >= MAX_PLAYERS) {
+        if (++instance.currentPlayer >= instance.activePlayerIds.Count) {
             instance.currentPlayer = 0;
         }
     }

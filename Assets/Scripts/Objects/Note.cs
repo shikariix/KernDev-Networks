@@ -1,31 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Note : MonoBehaviour {
-
-    private SpriteRenderer sr;
+public class Note : NetworkBehaviour {
+    
     private NoteController controller;
     
 	// Use this for initialization
 	void Awake () {
-        sr = GetComponent<SpriteRenderer>();
         controller = FindObjectOfType<NoteController>();
-
     }
 	
 	// Update is called once per frame
 	void FixedUpdate () {
         transform.position -= transform.right / 8;
+
+        if (!isServer) {
+            return;
+        }
+
         if (transform.position.x < -10) {
-            //make an event here to avoid tons of references?
             //break combo, go to next player & remove note
             TurnManager.NextTurn();
-            controller.DeactivateNote(gameObject);
+            controller.CmdDeactivateNote(gameObject);
         }
 	}
-
-    public void SetColor(Color col) {
-        sr.color = col;
-    }
 }

@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 114852852894277192}
   - component: {fileID: 114073805601620886}
   - component: {fileID: 114800727276882610}
-  - component: {fileID: 114983212564730810}
   - component: {fileID: 114531533118138830}
   m_Layer: 0
   m_Name: PlayerUI
@@ -227,7 +226,7 @@ MonoBehaviour:
     i14: 22
     i15: 252
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114975045281661226
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -255,25 +254,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114983212564730810
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1586163402219930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1267208747, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Target: {fileID: 0}
-  m_ChildIndex: 0
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_MovementThreshold: 0.001
-  m_InterpolateRotation: 0.5
-  m_InterpolateMovement: 0.5
 --- !u!222 &222475422764620048
 CanvasRenderer:
   m_ObjectHideFlags: 1

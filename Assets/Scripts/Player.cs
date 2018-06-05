@@ -16,9 +16,12 @@ public class Player : NetworkBehaviour {
         playersListTransform = GameObject.FindWithTag("PlayersList");
     }
 
-    void OnClientConnect() {
-        transform.parent = playersListTransform.transform;
+    void OnEnable() {
+        transform.SetParent(playersListTransform.transform, false);
+        //set this position from the parent object
+        transform.position = new Vector3(transform.position.x, transform.position.y + playerId, transform.position.z);
     }
+
 
     public void UpdateScore(string score) {
         scoreText.text = score;

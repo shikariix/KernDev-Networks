@@ -20,11 +20,17 @@ public class NoteObjectPool : NetworkBehaviour {
         if (!isServer) {
             return;
         }
+        CmdMakeObjects();
+    }
+    [Command]
+    void CmdMakeObjects() {
         objects = new Note[MAX_NOTES];
         for (int i = 0; i < MAX_NOTES; ++i) {
             //this creates the objects all on the same position
             //position should be changed on load
+
             objects[i] = Instantiate(notePrefab).GetComponent<Note>();
+            NetworkServer.Spawn(objects[i].gameObject);
             objects[i].gameObject.SetActive(false);
         }
     }
@@ -48,7 +54,7 @@ public class NoteObjectPool : NetworkBehaviour {
         }
         note.gameObject.transform.position = position;
         note.gameObject.SetActive(true);
-        note.SetColor(col);
+        note.GetComponent<SpriteRenderer>().material.color = col;
 
         //cycle through notes, make sure to loop around
         if (++currentNote == MAX_NOTES) {
