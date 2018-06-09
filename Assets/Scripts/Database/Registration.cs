@@ -20,10 +20,9 @@ public class Registration : MonoBehaviour {
         form.AddField("Email", emailField.text);
         form.AddField("Name", nameField.text);
         form.AddField("NewPassword", passwordField.text);
-        WWW www = new WWW("http://studenthome.hku.nl/~sarah.steenhuis/database/register.php", form);
+        WWW www = new WWW("http://studenthome.hku.nl/~sarah.steenhuis/database/register.php" , form);
         yield return www;
-
-        Debug.Log("Hallo??");
+        
         if (www.text == "0") {
             Debug.Log("User created succesfully.");
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
@@ -34,6 +33,5 @@ public class Registration : MonoBehaviour {
 
     public void VerifyInputs() {
         submitButton.interactable = (nameField.text.Length >= 8 && passwordField.text.Length >= 8);
-        
     }
 }

@@ -12,6 +12,7 @@ public class NoteController : NetworkBehaviour {
     private float timeUntilNextNote;
     private float timePassedSinceLastNote;
 
+
     public Queue<GameObject> activeNotes;
 
 	// Use this for initialization
@@ -24,9 +25,19 @@ public class NoteController : NetworkBehaviour {
         notePool = GetComponent<NoteObjectPool>();
         activeNotes = new Queue<GameObject>();
     }
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+
+    void OnEnable() {
+        EventManager.timeHitZero += CmdRemoveAllNotes;
+        EventManager.timeHitZero += StopTime;
+    }
+
+    void OnDisable() {
+        EventManager.timeHitZero -= CmdRemoveAllNotes;
+        EventManager.timeHitZero -= StopTime;
+    }
+
+    // Update is called once per frame
+    void FixedUpdate () {
         if (!isServer) {
             return;
         }
@@ -45,6 +56,14 @@ public class NoteController : NetworkBehaviour {
     public void CmdDeactivateNote(GameObject note) {
         activeNotes.Dequeue();
         note.SetActive(false);
+    }
+
+    [Command]
+    public void CmdRemoveAllNotes() {
+        foreach(GameObject obj in activeNotes) {
+            obj.SetActive(false);
+        }
+        activeNotes.Clear();
     }
 
     [Command]
@@ -82,5 +101,6 @@ public class NoteController : NetworkBehaviour {
 
     public void StartTime() {
         Time.timeScale = 1;
+
     }
 }

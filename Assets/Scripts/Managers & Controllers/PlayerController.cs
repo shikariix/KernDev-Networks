@@ -5,17 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class PlayerController : NetworkBehaviour {
-
-
+    
     private NoteController noteController;
-
-
-    //private int[] scores;
-    public Text[] scoreTexts;
+    
     private Score[] scores;
 
     void Start() {
-        //scores = new int[TurnManager.MAX_PLAYERS];
         scores = FindObjectsOfType<Score>();
         /*for (int i = 0; i < TurnManager.MAX_PLAYERS; i++) {
             scoreTexts[i].text = scores[i].ToString();

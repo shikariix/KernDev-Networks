@@ -1,16 +1,13 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventManager : MonoBehaviour {
+public class EventManager : MonoBehaviour{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public delegate void TimerEnd();
+    public static event TimerEnd timeHitZero;
+    
+    public static void EndTimer() {
+        timeHitZero();
+    }
 }
