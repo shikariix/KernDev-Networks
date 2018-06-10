@@ -54,7 +54,7 @@ public class NoteObjectPool : NetworkBehaviour {
         }
         note.gameObject.transform.position = position;
         note.gameObject.SetActive(true);
-        note.GetComponent<SpriteRenderer>().material.color = col;
+        note.SetColor(col);
 
         //cycle through notes, make sure to loop around
         if (++currentNote == MAX_NOTES) {

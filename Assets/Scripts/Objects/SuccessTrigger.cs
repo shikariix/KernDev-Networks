@@ -6,7 +6,7 @@ public class SuccessTrigger : MonoBehaviour {
 
     private bool isNoteNear;
     private float noteDistance;
-    private GameObject nearNote;
+    private Note nearNote;
 
     [SerializeField]
     private float maxScore;
@@ -26,7 +26,7 @@ public class SuccessTrigger : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col) {
         isNoteNear = true;
-        nearNote = col.gameObject;
+        nearNote = col.gameObject.GetComponent<Note>();
     }
     
     void OnTriggerStay2D(Collider2D col) {
@@ -47,7 +47,7 @@ public class SuccessTrigger : MonoBehaviour {
         return score;
     }
 
-    public GameObject GetNearNote() {
+    public Note GetNearNote() {
         return nearNote;
     }
 }

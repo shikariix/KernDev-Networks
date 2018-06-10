@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class TurnManager : MonoBehaviour {
+public class TurnManager : NetworkBehaviour {
 
     //this increments as long as new players arrive
     static int playerId = 0;

@@ -7,9 +7,9 @@ public class Menu : MonoBehaviour {
 
     public Text playerDisplay;
 
-	void Start () {
+	/*void Start () {
 		if (DBManager.loggedIn) {
             playerDisplay.text = "Player: " + DBManager.username;
         }
-	}
+	}*/
 }

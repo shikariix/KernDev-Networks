@@ -2,23 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class Timer : MonoBehaviour {
+public class Timer : NetworkBehaviour {
 
     public Text timerText;
-    private float secondsLeft = 10;
+    [SyncVar]
+    private double secondsLeft = 30;
     private bool countDown = false;
     private bool canSendScore = true;
 
     private NoteController nc;
 
+
+    //time variables
+    double timeOnLastFrame;
+    double timePassed;
+
     void Start() {
         nc = gameObject.GetComponent<NoteController>();
+        timeOnLastFrame = Network.time;
     }
 
     void Update() {
+        timerText.text = secondsLeft.ToString();
+
+        if (!isServer) {
+            return;
+        }
+
         if (countDown) {
-            secondsLeft -= Time.deltaTime;
+            timePassed = Network.time - timeOnLastFrame;
+            secondsLeft -= timePassed;
+            timeOnLastFrame = Network.time;
         }
         if (secondsLeft <= 0) {
             countDown = false;
@@ -28,7 +44,6 @@ public class Timer : MonoBehaviour {
                 canSendScore = false;
             }
         }
-        timerText.text = secondsLeft.ToString();
     }
 
     public void StartCountDown() {

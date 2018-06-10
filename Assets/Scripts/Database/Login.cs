@@ -22,12 +22,12 @@ public class Login : MonoBehaviour {
         yield return www;
 
         if (www.text[0] == '0') {
-            DBManager.username = www.text.Split('\t')[1];
-            DBManager.session = www.text.Split('\t')[2];
+            Player.username = www.text.Split('\t')[1];
+            Player.session = www.text.Split('\t')[2];
 
             //DBManager.score = int.Parse(www.text.Split('\t')[1]);
             Debug.Log("User logged in succesfully.");
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
         }
         else {
             Debug.Log("User login failed. Error no." + www.text);

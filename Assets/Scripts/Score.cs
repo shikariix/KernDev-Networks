@@ -21,21 +21,26 @@ public class Score : NetworkBehaviour {
     }
 
     public void SetScore(float amount) {
+        if (!isLocalPlayer) {
+            return;
+        }
         score += (int)amount;
         p.UpdateScore(score.ToString());
     }
 
     public void CallSaveData() {
-        DBManager.score = score;
+        if (!isLocalPlayer) {
+            return;
+        }
         StartCoroutine(SavePlayerData());
     }
 
     IEnumerator SavePlayerData() {
         WWWForm form = new WWWForm();
-        form.AddField("Score", DBManager.score);
+        form.AddField("Score", score);
         form.AddField("gameid", 6);
 
-        WWW www = new WWW("http://studenthome.hku.nl/~sarah.steenhuis/database/addscore.php?PHPSESSID=" + DBManager.session, form);
+        WWW www = new WWW("http://studenthome.hku.nl/~sarah.steenhuis/database/addscore.php?PHPSESSID=" + Player.session, form);
         yield return www;
 
         if (www.text[0] == '0') {
@@ -44,7 +49,6 @@ public class Score : NetworkBehaviour {
             Debug.Log("Save failed. Error no." + www.text);
         }
 
-        DBManager.LogOut();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        FindObjectOfType<MyNetworkManager>().ServerChangeScene("Menu");
     }
 }

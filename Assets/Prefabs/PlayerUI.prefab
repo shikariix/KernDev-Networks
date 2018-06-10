@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 701e79cc596212646b1261249423b719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 0}
+  scoreText: {fileID: 114382846589901126}
   playersListTransform: {fileID: 0}
 --- !u!114 &114852852894277192
 MonoBehaviour:

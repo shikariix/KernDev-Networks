@@ -8,6 +8,7 @@ public class Registration : MonoBehaviour {
     public InputField nameField;
     public InputField passwordField;
     public InputField emailField;
+    public Dropdown genderField;
     public Button submitButton;
 
     public void CallRegister() {
@@ -20,6 +21,7 @@ public class Registration : MonoBehaviour {
         form.AddField("Email", emailField.text);
         form.AddField("Name", nameField.text);
         form.AddField("NewPassword", passwordField.text);
+        form.AddField("Gender", genderField.captionText.text); 
         WWW www = new WWW("http://studenthome.hku.nl/~sarah.steenhuis/database/register.php" , form);
         yield return www;
         

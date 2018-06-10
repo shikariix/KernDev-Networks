@@ -53,12 +53,6 @@ public class NoteController : NetworkBehaviour {
     }
 
     [Command]
-    public void CmdDeactivateNote(GameObject note) {
-        activeNotes.Dequeue();
-        note.SetActive(false);
-    }
-
-    [Command]
     public void CmdRemoveAllNotes() {
         foreach(GameObject obj in activeNotes) {
             obj.SetActive(false);
@@ -68,10 +62,8 @@ public class NoteController : NetworkBehaviour {
 
     [Command]
     void CmdSpawnNote() {
-        Color col = GetColor();
-        GameObject note = notePool.GetObject(col);
+        GameObject note = notePool.GetObject(GetColor());
         activeNotes.Enqueue(note);
-        note.GetComponent<SpriteRenderer>().material.color = col;
         NetworkServer.Spawn(note);
     }
 

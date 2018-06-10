@@ -23,7 +23,17 @@ public class Note : NetworkBehaviour {
         if (transform.position.x < -10) {
             //break combo, go to next player & remove note
             TurnManager.NextTurn();
-            controller.CmdDeactivateNote(gameObject);
+            //controller.CmdDeactivateNote(gameObject);
+            DeactivateNote();
         }
 	}
+
+    public void DeactivateNote() {
+        NetworkServer.UnSpawn(gameObject);
+        gameObject.SetActive(false);
+    }
+
+    public void SetColor(Color col) {
+        GetComponent<SpriteRenderer>().color = col;
+    }
 }
