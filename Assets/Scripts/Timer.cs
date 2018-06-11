@@ -7,8 +7,7 @@ using UnityEngine.Networking;
 public class Timer : NetworkBehaviour {
 
     public Text timerText;
-    [SyncVar]
-    private double secondsLeft = 30;
+    [SyncVar(hook = "OnChangeTime")] private double secondsLeft = 30;
     private bool countDown = false;
     private bool canSendScore = true;
 
@@ -25,8 +24,7 @@ public class Timer : NetworkBehaviour {
     }
 
     void Update() {
-        timerText.text = secondsLeft.ToString();
-
+        
         if (!isServer) {
             return;
         }
@@ -46,7 +44,12 @@ public class Timer : NetworkBehaviour {
         }
     }
 
+    void OnChangeTime(double time) {
+        timerText.text = time.ToString();
+    }
+
     public void StartCountDown() {
+        timeOnLastFrame = Network.time;
         countDown = true;
     }
 }

@@ -12,6 +12,7 @@ public class NoteController : NetworkBehaviour {
     private float timeUntilNextNote;
     private float timePassedSinceLastNote;
 
+    private Color nextNoteColor;
 
     public Queue<GameObject> activeNotes;
 
@@ -27,13 +28,13 @@ public class NoteController : NetworkBehaviour {
     }
 
     void OnEnable() {
-        EventManager.timeHitZero += CmdRemoveAllNotes;
-        EventManager.timeHitZero += StopTime;
+        EventManager.EventTimeHitZero += CmdRemoveAllNotes;
+        EventManager.EventTimeHitZero += StopTime;
     }
 
     void OnDisable() {
-        EventManager.timeHitZero -= CmdRemoveAllNotes;
-        EventManager.timeHitZero -= StopTime;
+        EventManager.EventTimeHitZero -= CmdRemoveAllNotes;
+        EventManager.EventTimeHitZero -= StopTime;
     }
 
     // Update is called once per frame
@@ -62,24 +63,31 @@ public class NoteController : NetworkBehaviour {
 
     [Command]
     void CmdSpawnNote() {
-        GameObject note = notePool.GetObject(GetColor());
+        RpcGetColor();
+        GameObject note = notePool.GetObject(nextNoteColor);
         activeNotes.Enqueue(note);
         NetworkServer.Spawn(note);
     }
-
-    Color GetColor() {
+    
+    [ClientRpc]
+    void RpcGetColor() {
         randomNote = Random.Range(0, 4);
         switch (randomNote) {
             case 0:
-                return Color.blue;
+                nextNoteColor = Color.blue;
+                break;
             case 1:
-                return Color.green;
+                nextNoteColor = Color.green;
+                break;
             case 2:
-                return Color.yellow;
+                nextNoteColor = Color.yellow;
+                break;
             case 3:
-                return Color.red;
+                nextNoteColor = Color.red;
+                break;
             default:
-                return Color.blue;
+                nextNoteColor = Color.blue;
+                break;
         }
     }
 

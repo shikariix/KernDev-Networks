@@ -11,6 +11,7 @@ public class TurnManager : NetworkBehaviour {
     //list variables, so we can have any order of active players, also keeping in mind they might D/C and reconnect
     int currentPlayer = 0;
     List<int> activePlayerIds = new List<int>();
+    public List<Player> activePlayers = new List<Player>();
     public const int MAX_PLAYERS = 4;
 
     public static TurnManager instance;
@@ -48,8 +49,10 @@ public class TurnManager : NetworkBehaviour {
         Player[] players = FindObjectsOfType<Player>();
 
         activePlayerIds.Clear();
+        activePlayers.Clear();
         foreach (Player p in players) {
             activePlayerIds.Add(p.playerId);
+            activePlayers.Add(p);
         }
 
         if (activePlayerIds.Contains(currentId)) {
@@ -63,6 +66,7 @@ public class TurnManager : NetworkBehaviour {
     /// Player objects register themselves when they are spawned (server-only)
     public static int Register(Player p) {
         instance.activePlayerIds.Add(playerId);
+        instance.activePlayers.Add(p);
         Debug.Log("Registered player " + playerId);
         return playerId++;
     }

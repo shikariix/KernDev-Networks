@@ -11,21 +11,23 @@ public class Score : NetworkBehaviour {
 
     void Start() {
         p = GetComponent<Player>();
+        p.CmdUpdateScore(score);
     }
 
     void OnEnable() {
-        EventManager.timeHitZero += CallSaveData;
+        EventManager.EventTimeHitZero += CallSaveData;
     }
     void OnDisable() {
-        EventManager.timeHitZero -= CallSaveData;
+        EventManager.EventTimeHitZero -= CallSaveData;
     }
 
-    public void SetScore(float amount) {
+    [Command]
+    public void CmdSetScore(float amount) {
         if (!isLocalPlayer) {
             return;
         }
         score += (int)amount;
-        p.UpdateScore(score.ToString());
+        p.CmdUpdateScore(score);
     }
 
     public void CallSaveData() {

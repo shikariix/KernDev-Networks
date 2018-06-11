@@ -53,8 +53,8 @@ public class NoteObjectPool : NetworkBehaviour {
             position.y += yOffset;
         }
         note.gameObject.transform.position = position;
-        note.gameObject.SetActive(true);
         note.SetColor(col);
+        note.gameObject.SetActive(true);
 
         //cycle through notes, make sure to loop around
         if (++currentNote == MAX_NOTES) {

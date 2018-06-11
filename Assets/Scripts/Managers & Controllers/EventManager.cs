@@ -5,11 +5,11 @@ using UnityEngine.Networking;
 
 public class EventManager : NetworkBehaviour{
 
-    public delegate void DelegateWithoutParameters();
-
-    public static event DelegateWithoutParameters timeHitZero;
+    public delegate void EventWithoutParameters();
+    [SyncEvent]
+    public static event EventWithoutParameters EventTimeHitZero;
 
     public static void EndTimer() {
-        timeHitZero();
+        EventTimeHitZero();
     }
 }

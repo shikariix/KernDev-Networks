@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 public class GameController : NetworkBehaviour {
 
     private PlayerController playerController;
-    private NoteController noteController;
 
     public SuccessTrigger[] triggers;
 
@@ -24,29 +23,15 @@ public class GameController : NetworkBehaviour {
     // Use this for initialization
     void Start () {
         playerController = GetComponent<PlayerController>();
-        noteController = GetComponent<NoteController>();
         
     }
-
+    
     public void CheckTrigger(int index, int playerId) {
-        if (triggers[index].IsNoteNear()) {
-            playerController.SetScore(triggers[index].GetScore());
+        if (triggers[index].IsNoteNear() && playerId == TurnManager.instance.CurrentPlayer()) {
+            playerController.RpcSetScore(triggers[index].GetScore());
             TurnManager.NextTurn();
-            triggers[index].GetNearNote().DeactivateNote();
+            triggers[index].GetNearNote().RpcDeactivateNote();
         }
     }
-
-	/*void Update () {
-        if (isLocalPlayer) { 
-            //manage input
-            for (int i = 0; i < triggers.Length; i++) {
-                string keyCode = "Button" + (i+1);
-                if (Input.GetButtonDown(keyCode) && triggers[i].IsNoteNear()) {
-                    playerController.SetScore(triggers[i].GetScore());
-                    TurnManager.NextTurn();
-                    noteController.CmdDeactivateNote(triggers[i].GetNearNote());
-                }
-            }
-        }
-    }*/
+    
 }

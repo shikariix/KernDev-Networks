@@ -7,22 +7,32 @@ using UnityEngine.UI;
 public class Player : NetworkBehaviour {
 
     internal int playerId = -1;
-    public Text scoreText;
     public GameObject playersListTransform;
 
+    //UI elements
+    public Text scoreText;
+    public Text nameText;
+
+    //Player data
     public static string username;
     public static string session;
-    private Score score;
+    
+    [SyncVar] private string uname;
+
+    public PlayerController controller;
 
     void Awake() {
         playersListTransform = GameObject.FindWithTag("PlayersList");
-        score = GetComponent<Score>();
+        if (playerId == -1) { 
+            playerId = TurnManager.Register(this);
+        }
+        CmdSendNameToServer(username);
+        controller = FindObjectOfType<PlayerController>();
     }
 
     void OnEnable() {
         transform.SetParent(playersListTransform.transform, false);
-        //set this position from the parent object
-        transform.position = new Vector3(transform.position.x, transform.position.y + (playerId * 10), transform.position.z);
+
     }
 
     void Update() {
@@ -38,9 +48,19 @@ public class Player : NetworkBehaviour {
         }
     }
 
-
-    public void UpdateScore(string score) {
-        scoreText.text = score;
+    [Command]
+    public void CmdUpdateScore(int score) {
+        scoreText.text = score.ToString();
     }
 
+    [Command]
+    public void CmdSendNameToServer(string nameToSend) {
+        RpcDisplayUsername(nameToSend);
+    }
+
+    [ClientRpc]
+    void RpcDisplayUsername(string name) {
+        uname = name;
+        nameText.text = uname;
+    }
 }

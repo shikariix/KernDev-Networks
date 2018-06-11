@@ -5,16 +5,12 @@ using UnityEngine.Networking;
 
 public class Note : NetworkBehaviour {
     
-    private NoteController controller;
-    
-	// Use this for initialization
-	void Awake () {
-        controller = FindObjectOfType<NoteController>();
-    }
-	
+    [SyncVar] Color col;
+    	
 	// Update is called once per frame
 	void FixedUpdate () {
         transform.position -= transform.right / 8;
+        GetComponent<SpriteRenderer>().color = col;
 
         if (!isServer) {
             return;
@@ -24,16 +20,17 @@ public class Note : NetworkBehaviour {
             //break combo, go to next player & remove note
             TurnManager.NextTurn();
             //controller.CmdDeactivateNote(gameObject);
-            DeactivateNote();
+            RpcDeactivateNote();
         }
 	}
-
-    public void DeactivateNote() {
+    
+    [ClientRpc]
+    public void RpcDeactivateNote() {
         NetworkServer.UnSpawn(gameObject);
         gameObject.SetActive(false);
     }
 
-    public void SetColor(Color col) {
-        GetComponent<SpriteRenderer>().color = col;
+    public void SetColor(Color newColor) {
+        col = newColor;
     }
 }
