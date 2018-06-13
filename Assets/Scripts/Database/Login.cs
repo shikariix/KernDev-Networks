@@ -23,10 +23,11 @@ public class Login : MonoBehaviour {
 
         if (www.text[0] == '0') {
             Player.username = www.text.Split('\t')[1];
+            Player.playerId = int.Parse(www.text.Split('\t')[3]);
             Player.session = www.text.Split('\t')[2];
 
             //DBManager.score = int.Parse(www.text.Split('\t')[1]);
-            Debug.Log("User logged in succesfully.");
+            Debug.Log("User " + Player.playerId + " logged in succesfully.");
             UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
         }
         else {

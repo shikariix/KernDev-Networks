@@ -51,7 +51,7 @@ public class TurnManager : NetworkBehaviour {
         activePlayerIds.Clear();
         activePlayers.Clear();
         foreach (Player p in players) {
-            activePlayerIds.Add(p.playerId);
+            activePlayerIds.Add(p.GetID());
             activePlayers.Add(p);
         }
 
@@ -65,7 +65,7 @@ public class TurnManager : NetworkBehaviour {
     
     /// Player objects register themselves when they are spawned (server-only)
     public static int Register(Player p) {
-        instance.activePlayerIds.Add(playerId);
+        instance.activePlayerIds.Add(p.GetID());
         instance.activePlayers.Add(p);
         Debug.Log("Registered player " + playerId);
         return playerId++;

@@ -38,7 +38,7 @@ public class Timer : NetworkBehaviour {
             countDown = false;
             secondsLeft = 0;
             if (canSendScore) { 
-                EventManager.EndTimer();
+                EventManager.RpcEndTimer();
                 canSendScore = false;
             }
         }

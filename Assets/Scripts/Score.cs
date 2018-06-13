@@ -15,10 +15,10 @@ public class Score : NetworkBehaviour {
     }
 
     void OnEnable() {
-        EventManager.EventTimeHitZero += CallSaveData;
+        EventManager.EventTimeHitZero += CmdCallSaveData;
     }
     void OnDisable() {
-        EventManager.EventTimeHitZero -= CallSaveData;
+        EventManager.EventTimeHitZero -= CmdCallSaveData;
     }
 
     [Command]
@@ -30,7 +30,8 @@ public class Score : NetworkBehaviour {
         p.CmdUpdateScore(score);
     }
 
-    public void CallSaveData() {
+    [Command]
+    public void CmdCallSaveData() {
         if (!isLocalPlayer) {
             return;
         }

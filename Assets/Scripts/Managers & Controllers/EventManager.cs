@@ -9,7 +9,8 @@ public class EventManager : NetworkBehaviour{
     [SyncEvent]
     public static event EventWithoutParameters EventTimeHitZero;
 
-    public static void EndTimer() {
+    [ClientRpc]
+    public static void RpcEndTimer() {
         EventTimeHitZero();
     }
 }

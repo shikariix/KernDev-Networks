@@ -20,12 +20,12 @@ public class Note : NetworkBehaviour {
             //break combo, go to next player & remove note
             TurnManager.NextTurn();
             //controller.CmdDeactivateNote(gameObject);
-            RpcDeactivateNote();
+            DeactivateNote();
         }
 	}
     
-    [ClientRpc]
-    public void RpcDeactivateNote() {
+    
+    public void DeactivateNote() {
         NetworkServer.UnSpawn(gameObject);
         gameObject.SetActive(false);
     }
