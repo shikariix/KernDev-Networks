@@ -28,12 +28,12 @@ public class NoteController : NetworkBehaviour {
     }
 
     void OnEnable() {
-        EventManager.EventTimeHitZero += CmdRemoveAllNotes;
+        EventManager.EventTimeHitZero += RemoveAllNotes;
         EventManager.EventTimeHitZero += StopTime;
     }
 
     void OnDisable() {
-        EventManager.EventTimeHitZero -= CmdRemoveAllNotes;
+        EventManager.EventTimeHitZero -= RemoveAllNotes;
         EventManager.EventTimeHitZero -= StopTime;
     }
 
@@ -52,11 +52,14 @@ public class NoteController : NetworkBehaviour {
             timePassedSinceLastNote = 0;
         }
     }
+    
 
-    [Command]
-    public void CmdRemoveAllNotes() {
+    public void RemoveAllNotes() {
+        if (!isServer) {
+            return;
+        }
         foreach(GameObject obj in activeNotes) {
-            obj.SetActive(false);
+            obj.GetComponent<Note>().DeactivateNote();
         }
         activeNotes.Clear();
     }

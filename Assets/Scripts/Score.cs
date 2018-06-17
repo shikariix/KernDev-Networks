@@ -6,52 +6,21 @@ using UnityEngine.UI;
 
 public class Score : NetworkBehaviour {
 
-    [SyncVar] public int score = 0;
+    [SyncVar (hook = "OnScoreChanged")] public int score = 0;
     private Player p;
+    
+    public Text scoreText;
 
     void Start() {
         p = GetComponent<Player>();
-        p.CmdUpdateScore(score);
+        scoreText.text = score.ToString();
     }
-
-    void OnEnable() {
-        EventManager.EventTimeHitZero += CmdCallSaveData;
-    }
-    void OnDisable() {
-        EventManager.EventTimeHitZero -= CmdCallSaveData;
-    }
-
-    [Command]
-    public void CmdSetScore(float amount) {
-        if (!isLocalPlayer) {
-            return;
-        }
+    
+    public void SetScore(float amount) {
         score += (int)amount;
-        p.CmdUpdateScore(score);
     }
-
-    [Command]
-    public void CmdCallSaveData() {
-        if (!isLocalPlayer) {
-            return;
-        }
-        StartCoroutine(SavePlayerData());
-    }
-
-    IEnumerator SavePlayerData() {
-        WWWForm form = new WWWForm();
-        form.AddField("Score", score);
-        form.AddField("gameid", 6);
-
-        WWW www = new WWW("http://studenthome.hku.nl/~sarah.steenhuis/database/addscore.php?PHPSESSID=" + Player.session, form);
-        yield return www;
-
-        if (www.text[0] == '0') {
-            Debug.Log("Score saved.");
-        } else {
-            Debug.Log("Save failed. Error no." + www.text);
-        }
-
-        FindObjectOfType<MyNetworkManager>().ServerChangeScene("Menu");
+    
+    public void OnScoreChanged(int score) {
+        scoreText.text = score.ToString();
     }
 }

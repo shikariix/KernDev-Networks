@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
+  scoreText: {fileID: 114382846589901126}
 --- !u!114 &114382846589901126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -194,8 +195,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playersListTransform: {fileID: 0}
-  scoreText: {fileID: 114382846589901126}
   nameText: {fileID: 114573962760386796}
+  controller: {fileID: 0}
 --- !u!114 &114852852894277192
 MonoBehaviour:
   m_ObjectHideFlags: 1

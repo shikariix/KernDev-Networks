@@ -29,7 +29,7 @@ public class GameController : NetworkBehaviour {
     [ClientRpc]
     public void RpcCheckTrigger(int index, int playerId) {
         if (triggers[index].IsNoteNear() && playerId == TurnManager.instance.CurrentPlayer()) {
-            playerController.RpcSetScore(triggers[index].GetScore());
+            playerController.RpcSetScore(triggers[index].GetScore(), playerId);
             TurnManager.NextTurn();
             triggers[index].GetNearNote().DeactivateNote();
         }

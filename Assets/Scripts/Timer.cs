@@ -11,15 +11,12 @@ public class Timer : NetworkBehaviour {
     private bool countDown = false;
     private bool canSendScore = true;
 
-    private NoteController nc;
-
 
     //time variables
     double timeOnLastFrame;
     double timePassed;
 
     void Start() {
-        nc = gameObject.GetComponent<NoteController>();
         timeOnLastFrame = Network.time;
     }
 
@@ -37,8 +34,12 @@ public class Timer : NetworkBehaviour {
         if (secondsLeft <= 0) {
             countDown = false;
             secondsLeft = 0;
-            if (canSendScore) { 
-                EventManager.RpcEndTimer();
+            if (canSendScore) {
+                foreach (Player p in FindObjectsOfType<Player>()) {
+                    p.CmdSendPlayerToServer();
+                }
+
+                EventManager.instance.RpcEndTimer();
                 canSendScore = false;
             }
         }

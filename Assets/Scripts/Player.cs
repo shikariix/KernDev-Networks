@@ -10,7 +10,6 @@ public class Player : NetworkBehaviour {
     public GameObject playersListTransform;
 
     //UI elements
-    public Text scoreText;
     public Text nameText;
 
     //Player data
@@ -18,21 +17,28 @@ public class Player : NetworkBehaviour {
     public static string session;
     
     [SyncVar] private string uname;
-
+    
     public PlayerController controller;
 
     void Awake() {
         playersListTransform = GameObject.FindWithTag("PlayersList");
-        if (!TurnManager.instance.activePlayers.Contains(this)) { 
+        if (!TurnManager.instance.activePlayers.Contains(this)) {
             playerId = TurnManager.Register(this);
         }
-        CmdSendNameToServer(username);
         controller = FindObjectOfType<PlayerController>();
+        if (!isLocalPlayer) return;
+
+        uname = username;
+        CmdSendNameToServer(uname);
     }
 
     void OnEnable() {
         transform.SetParent(playersListTransform.transform, false);
+    }
 
+    [Command]
+    public void CmdSendPlayerToServer() {
+        controller.AddPlayer(session, GetComponent<Score>().score);
     }
 
     void Update() {
@@ -54,22 +60,20 @@ public class Player : NetworkBehaviour {
     }
 
     [Command]
-    public void CmdUpdateScore(int score) {
-        scoreText.text = score.ToString();
-    }
-
-    [Command]
     public void CmdSendNameToServer(string nameToSend) {
         RpcDisplayUsername(nameToSend);
     }
 
     [ClientRpc]
     void RpcDisplayUsername(string name) {
-        uname = name;
-        nameText.text = uname;
+        nameText.text = name;
     }
 
     public int GetID() {
         return playerId;
+    }
+
+    public string GetSession() {
+        return session;
     }
 }

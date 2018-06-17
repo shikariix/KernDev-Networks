@@ -5,12 +5,20 @@ using UnityEngine.Networking;
 
 public class EventManager : NetworkBehaviour{
 
-    public delegate void EventWithoutParameters();
-    [SyncEvent]
-    public static event EventWithoutParameters EventTimeHitZero;
+    public static EventManager instance;
+    void Awake() {
+        if (instance == null) {
+            instance = this;
+        }
+    }
 
+    public delegate void DelegateWithoutParameters();
+    //[SyncEvent]
+    public static event DelegateWithoutParameters EventTimeHitZero;
+    
     [ClientRpc]
-    public static void RpcEndTimer() {
+    public void RpcEndTimer() {
+        Debug.Log("Starting event...");
         EventTimeHitZero();
     }
 }
